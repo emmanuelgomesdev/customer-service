@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ class customerRepositoryTest {
                 "123.456.789-00",
                 "silva@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(11)2233-4455",
                 "São Paulo - SP - Brazil",
                 "Masculino"
@@ -56,6 +58,8 @@ class customerRepositoryTest {
         assertThat(saved.getDocument()).isEqualTo(customer.getDocument());
         assertThat(saved.getFullName()).isEqualTo(customer.getFullName());
         assertThat(saved.getEmail()).isEqualTo(customer.getEmail());
+        assertThat(saved.getNationality()).isEqualTo(customer.getNationality());
+        assertThat(saved.getBirthDate()).isEqualTo(customer.getBirthDate());
         assertThat(saved.getPhone()).isEqualTo(customer.getPhone());
         assertThat(saved.getAddress()).isEqualTo(customer.getAddress());
         assertThat(saved.getGender()).isEqualTo(customer.getGender());
@@ -93,6 +97,7 @@ class customerRepositoryTest {
                 "00.111.222-33",
                 "maria@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)22339988",
                 "Rua 2",
                 "Feminino"
@@ -103,6 +108,7 @@ class customerRepositoryTest {
                 "11.777.999-33",
                 "gomes@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"
@@ -187,6 +193,7 @@ class customerRepositoryTest {
                 customer.getDocument(),
                 "joana@gmail.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(11)8889996",
                 "Rua flores 39",
                 "Feminino"

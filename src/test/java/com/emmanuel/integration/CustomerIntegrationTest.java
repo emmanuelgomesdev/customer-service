@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,6 +52,7 @@ public class CustomerIntegrationTest {
                 "111.555.444-99",
                 "isabel@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)55996633",
                 "Rua 5",
                 "Feminino"
@@ -65,6 +67,8 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.fullName").value(request.fullName()))
                 .andExpect(jsonPath("$.document").value(request.document()))
                 .andExpect(jsonPath("$.email").value(request.email()))
+                .andExpect(jsonPath("$.nationality").value(request.nationality()))
+                .andExpect(jsonPath("$.birthDate").value(request.birthDate().toString()))
                 .andReturn();
 
         //Extract response body
@@ -92,6 +96,7 @@ public class CustomerIntegrationTest {
                 "111.555.444-99",
                 "isabel@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)55996633",
                 "Rua 5",
                 "Feminino"
@@ -109,6 +114,7 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.document").value(saved.getDocument()))
                 .andExpect(jsonPath("$.email").value(saved.getEmail()))
                 .andExpect(jsonPath("$.nationality").value(saved.getNationality()))
+                .andExpect(jsonPath("$.birthDate").value(saved.getBirthDate().toString()))
                 .andExpect(jsonPath("$.phone").value(saved.getPhone()))
                 .andExpect(jsonPath("$.address").value(saved.getAddress()))
                 .andExpect(jsonPath("$.gender").value(saved.getGender()));
@@ -124,6 +130,7 @@ public class CustomerIntegrationTest {
                 "111.555.444-99",
                 "isabel@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)55996633",
                 "Rua 5",
                 "Feminino"
@@ -134,6 +141,7 @@ public class CustomerIntegrationTest {
                 "11.777.999-33",
                 "gomes@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"
@@ -152,10 +160,12 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.content[0].document").value(customer2.getDocument()))
                 .andExpect(jsonPath("$.content[0].email").value(customer2.getEmail()))
                 .andExpect(jsonPath("$.content[0].nationality").value(customer2.getNationality()))
+                .andExpect(jsonPath("$.content[0].birthDate").value(customer2.getBirthDate().toString()))
                 .andExpect(jsonPath("$.content[1].fullName").value(customer1.getFullName()))
                 .andExpect(jsonPath("$.content[1].document").value(customer1.getDocument()))
                 .andExpect(jsonPath("$.content[1].email").value(customer1.getEmail()))
                 .andExpect(jsonPath("$.content[1].nationality").value(customer1.getNationality()))
+                .andExpect(jsonPath("$.content[1].birthDate").value(customer1.getBirthDate().toString()))
                 .andExpect(jsonPath("$.page.totalElements").value(2))
                 .andExpect(jsonPath("$.page.size").value(5))
                 .andExpect(jsonPath("$.page.number").value(0));
@@ -171,6 +181,7 @@ public class CustomerIntegrationTest {
                 "11.777.999-33",
                 "gomes@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"
@@ -181,6 +192,7 @@ public class CustomerIntegrationTest {
         UpdateCustomerRequest request = new UpdateCustomerRequest(
                 "Maria Isabel",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)9999-8888",
                 "Rua Samambaia 99",
                 "Feminino"
@@ -195,6 +207,7 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.id").value(saved.getId().toString()))
                 .andExpect(jsonPath("$.fullName").value(request.fullName()))
                 .andExpect(jsonPath("$.nationality").value(request.nationality()))
+                .andExpect(jsonPath("$.birthDate").value(request.birthDate().toString()))
                 .andExpect(jsonPath("$.phone").value(request.phone()))
                 .andExpect(jsonPath("$.address").value(request.address()))
                 .andExpect(jsonPath("$.gender").value(request.gender()));
@@ -204,6 +217,7 @@ public class CustomerIntegrationTest {
 
         //Assert updated fields
         assertThat(updated.getFullName()).isEqualTo(request.fullName());
+        assertThat(updated.getBirthDate()).isEqualTo(request.birthDate());
         assertThat(updated.getPhone()).isEqualTo(request.phone());
         assertThat(updated.getAddress()).isEqualTo(request.address());
         assertThat(updated.getGender()).isEqualTo(request.gender());
@@ -223,6 +237,7 @@ public class CustomerIntegrationTest {
                 "11.777.999-33",
                 "gomes@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"

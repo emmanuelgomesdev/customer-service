@@ -12,9 +12,10 @@ public class CustomerApplicationMapper {
     public Customer toEntity(CreateCustomerCommand command) {
         return Customer.create(
                 command.fullName(),
-                command.nationality(),
                 command.document(),
                 command.email(),
+                command.nationality(),
+                command.birthDate(),
                 command.phone(),
                 command.address(),
                 command.gender()
@@ -28,6 +29,7 @@ public class CustomerApplicationMapper {
                 customer.getDocument(),
                 customer.getEmail(),
                 customer.getNationality(),
+                customer.getBirthDate(),
                 customer.getPhone(),
                 customer.getAddress(),
                 customer.getGender(),
@@ -39,7 +41,8 @@ public class CustomerApplicationMapper {
    public void updateEntity(Customer customer, UpdateCustomerCommand command){
         customer.update(
                 command.fullName(),
-                customer.getNationality(),
+                command.nationality(),
+                command.birthDate(),
                 command.phone(),
                 command.address(),
                 command.gender()

@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +51,7 @@ public class CustomerServiceTest {
                 "11.222.333-44",
                 "silva@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)22336699",
                 "Rua Flores 25",
                 "Feminino"
@@ -60,6 +62,7 @@ public class CustomerServiceTest {
                 command.document(),
                 command.email(),
                 command.nationality(),
+                command.birthDate(),
                 command.phone(),
                 command.address(),
                 command.gender()
@@ -71,6 +74,7 @@ public class CustomerServiceTest {
                 command.document(),
                 command.email(),
                 command.nationality(),
+                command.birthDate(),
                 command.phone(),
                 command.address(),
                 command.gender(),
@@ -106,6 +110,7 @@ public class CustomerServiceTest {
                 "11.555.444-99",
                 "isabel@email.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(44)55996633",
                 "Rua 5",
                 "Feminino"
@@ -117,6 +122,7 @@ public class CustomerServiceTest {
                 customer.getDocument(),
                 customer.getEmail(),
                 customer.getNationality(),
+                customer.getBirthDate(),
                 customer.getPhone(),
                 customer.getAddress(),
                 customer.getGender(),
@@ -153,6 +159,7 @@ public class CustomerServiceTest {
                 "00.111.222-33",
                 "maria@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)22339988",
                 "Rua 2",
                 "Feminino"
@@ -163,6 +170,7 @@ public class CustomerServiceTest {
                 "11.777.999-33",
                 "gomes@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"
@@ -174,6 +182,7 @@ public class CustomerServiceTest {
                 customer1.getDocument(),
                 customer1.getEmail(),
                 customer1.getNationality(),
+                customer1.getBirthDate(),
                 customer1.getPhone(),
                 customer1.getAddress(),
                 customer1.getGender(),
@@ -187,6 +196,7 @@ public class CustomerServiceTest {
                 customer2.getDocument(),
                 customer2.getEmail(),
                 customer2.getNationality(),
+                customer2.getBirthDate(),
                 customer2.getPhone(),
                 customer2.getAddress(),
                 customer2.getGender(),
@@ -231,6 +241,7 @@ public class CustomerServiceTest {
                 "00.111.222-33",
                 "maria@silva.com",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)22339988",
                 "Rua 2",
                 "Feminino"
@@ -239,6 +250,7 @@ public class CustomerServiceTest {
         UpdateCustomerCommand command = new UpdateCustomerCommand(
                 "José Gomes",
                 "Brazilian",
+                LocalDate.parse("1998-06-18"),
                 "(00)11554488",
                 "Rua 3",
                 "Masculino"
@@ -250,6 +262,7 @@ public class CustomerServiceTest {
                 customer.getDocument(),
                 customer.getEmail(),
                 customer.getNationality(),
+                command.birthDate(),
                 command.phone(),
                 command.address(),
                 command.gender(),
@@ -282,7 +295,8 @@ public class CustomerServiceTest {
                 "11.555.444-99",
                 "isabel@email.com",
                 "Brazilian",
-                "944)55996633",
+                LocalDate.parse("1998-06-18"),
+                "(44)55996633",
                 "Rua 5",
                 "Feminino"
         );

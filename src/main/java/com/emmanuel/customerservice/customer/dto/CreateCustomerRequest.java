@@ -2,7 +2,10 @@ package com.emmanuel.customerservice.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 public record CreateCustomerRequest(
 
@@ -20,6 +23,9 @@ public record CreateCustomerRequest(
 
         @Size(max = 100)
         String nationality,
+
+        @NotNull(message = "Birth date is required")
+        LocalDate birthDate,
 
         @NotBlank(message = "Phone is required")
         @Size(max = 15, message = "Phone must have at most 15 characters")

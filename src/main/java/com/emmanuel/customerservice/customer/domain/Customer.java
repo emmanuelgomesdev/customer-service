@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -32,6 +33,9 @@ public class Customer {
     @Column(name = "nationality", length = 100)
     private String nationality;
 
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
+
     @Column(name = "phone", nullable = false)
     private String phone;
 
@@ -55,6 +59,7 @@ public class Customer {
             String document,
             String email,
             String nationality,
+            LocalDate birthDate,
             String phone,
             String address,
             String gender) {
@@ -65,6 +70,7 @@ public class Customer {
         customer.document = document;
         customer.email = email;
         customer.nationality = nationality;
+        customer.birthDate = birthDate;
         customer.phone = phone;
         customer.address = address;
         customer.gender = gender;
@@ -75,12 +81,14 @@ public class Customer {
     public void update(
             String fullName,
             String nationality,
+            LocalDate birthDate,
             String phone,
             String address,
             String gender) {
 
         this.fullName = fullName;
         this.nationality = nationality;
+        this.birthDate = birthDate;
         this.phone = phone;
         this.address = address;
         this.gender = gender;
@@ -97,6 +105,8 @@ public class Customer {
     public String getEmail() {return email;}
 
     public String getNationality() {return nationality;}
+
+    public LocalDate getBirthDate() {return birthDate;}
 
     public String getPhone() {return phone;}
 
