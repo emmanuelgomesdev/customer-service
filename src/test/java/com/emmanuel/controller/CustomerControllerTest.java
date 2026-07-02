@@ -58,6 +58,7 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
+                "Brazilian",
                 "(00)55996633",
                 "Rua 5",
                 "Feminino"
@@ -67,6 +68,7 @@ public class CustomerControllerTest {
                 request.fullName(),
                 request.document(),
                 request.email(),
+                request.nationality(),
                 request.phone(),
                 request.address(),
                 request.gender()
@@ -77,6 +79,7 @@ public class CustomerControllerTest {
                 request.fullName(),
                 request.document(),
                 request.email(),
+                request.nationality(),
                 request.phone(),
                 request.address(),
                 request.gender(),
@@ -89,6 +92,7 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
+                request.nationality(),
                 result.phone(),
                 result.address(),
                 result.gender(),
@@ -109,6 +113,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
+                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.phone").value(response.phone()))
                 .andExpect(jsonPath("$.address").value(response.address()))
                 .andExpect(jsonPath("$.gender").value(response.gender()));
@@ -129,6 +134,7 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
+                "Brazilian",
                 "(00)55996633",
                 "Rua 5",
                 "Feminino",
@@ -141,6 +147,7 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
+                result.nationality(),
                 result.phone(),
                 result.address(),
                 result.gender(),
@@ -158,6 +165,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
+                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.phone").value(response.phone()))
                 .andExpect(jsonPath("$.address").value(response.address()))
                 .andExpect(jsonPath("$.gender").value(response.gender()));
@@ -184,6 +192,7 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
+                "Brazilian",
                 "(00)55996633",
                 "Rua 5",
                 "Feminino",
@@ -196,6 +205,7 @@ public class CustomerControllerTest {
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
+                "Brazilian",
                 "(00)11554488",
                 "Rua 3",
                 "Masculino",
@@ -208,6 +218,7 @@ public class CustomerControllerTest {
                 result1.fullName(),
                 result1.document(),
                 result1.email(),
+                result1.nationality(),
                 result1.phone(),
                 result1.address(),
                 result1.gender(),
@@ -220,6 +231,7 @@ public class CustomerControllerTest {
                 result2.fullName(),
                 result2.document(),
                 result2.email(),
+                result2.nationality(),
                 result2.phone(),
                 result2.address(),
                 result2.gender(),
@@ -245,9 +257,11 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.content[0].id").value(response1.id().toString()))
                 .andExpect(jsonPath("$.content[0].fullName").value(response1.fullName()))
                 .andExpect(jsonPath("$.content[0].email").value(response1.email()))
+                .andExpect(jsonPath("$.nationality").value(response1.nationality()))
                 .andExpect(jsonPath("$.content[1].id").value(response2.id().toString()))
                 .andExpect(jsonPath("$.content[1].fullName").value(response2.fullName()))
                 .andExpect(jsonPath("$.content[1].email").value(response2.email()))
+                .andExpect(jsonPath("$.nationality").value(response2.nationality()))
                 .andExpect(jsonPath("$.totalElements").value(2))
                 .andExpect(jsonPath("$.size").value(5))
                 .andExpect(jsonPath("$.number").value(0));
@@ -265,6 +279,7 @@ public class CustomerControllerTest {
 
         UpdateCustomerRequest request = new UpdateCustomerRequest(
                 "José Luís",
+                "Brazilian",
                 "(22)3366-9966",
                 "Rua Beija-Flor 18",
                 "Masculino"
@@ -272,6 +287,7 @@ public class CustomerControllerTest {
 
         UpdateCustomerCommand command = new UpdateCustomerCommand(
                 request.fullName(),
+                request.nationality(),
                 request.phone(),
                 request.address(),
                 request.gender()
@@ -280,6 +296,7 @@ public class CustomerControllerTest {
         CustomerResult result = new CustomerResult(
                 id,
                 request.fullName(),
+                "Brazilian",
                 "11.777.999-33",
                 "gomes@silva.com",
                 request.phone(),
@@ -294,6 +311,7 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
+                result.nationality(),
                 result.phone(),
                 result.address(),
                 result.gender(),
@@ -314,6 +332,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
+                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.phone").value(response.phone()))
                 .andExpect(jsonPath("$.address").value(response.address()))
                 .andExpect(jsonPath("$.gender").value(response.gender()));
