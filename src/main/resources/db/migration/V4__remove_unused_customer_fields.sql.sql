@@ -1,0 +1,11 @@
+ALTER TABLE customers
+ADD COLUMN status VARCHAR (20)  NOT NULL DEFAULT 'ACTIVE';
+
+ALTER TABLE customers
+DROP COLUMN nationality;
+
+ALTER TABLE customers
+DROP COLUMN address;
+
+ALTER TABLE customers
+DROP COLUMN gender;

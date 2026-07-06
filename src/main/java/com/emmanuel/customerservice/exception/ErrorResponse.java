@@ -11,7 +11,9 @@ public enum ErrorResponse {
     CUSTOMER_VALIDATION_ERROR("CUSTOMER-005", "Validation error", HttpStatus.BAD_REQUEST),
     CUSTOMER_REQUIRED_FIELD("CUSTOMER-006", "Required field", HttpStatus.BAD_REQUEST),
     CUSTOMER_UPDATE_ERROR("CUSTOMER-007", "Error updating customer", HttpStatus.UNPROCESSABLE_ENTITY),
-    CUSTOMER_DELETE_ERROR("CUSTOMER-008", "Error deleting customer", HttpStatus.UNPROCESSABLE_ENTITY);
+    CUSTOMER_DELETE_ERROR("CUSTOMER-008", "Error deleting customer", HttpStatus.UNPROCESSABLE_ENTITY),
+    CUSTOMER_ALREADY_INACTIVE("CUSTOMER-009", "Customer already inactive", HttpStatus.CONFLICT),
+    CUSTOMER_ALREADY_ACTIVE("CUSTOMER-010",   "Customer already active", HttpStatus.CONFLICT),;
 
     private final String errorCode;
     private final String message;

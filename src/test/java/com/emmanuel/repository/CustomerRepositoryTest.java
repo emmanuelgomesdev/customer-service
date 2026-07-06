@@ -30,11 +30,8 @@ class customerRepositoryTest {
                 "José Silva",
                 "123.456.789-00",
                 "silva@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(11)2233-4455",
-                "São Paulo - SP - Brazil",
-                "Masculino"
+                "(11)2233-4455"
         );
     }
 
@@ -58,12 +55,9 @@ class customerRepositoryTest {
         assertThat(saved.getDocument()).isEqualTo(customer.getDocument());
         assertThat(saved.getFullName()).isEqualTo(customer.getFullName());
         assertThat(saved.getEmail()).isEqualTo(customer.getEmail());
-        assertThat(saved.getNationality()).isEqualTo(customer.getNationality());
         assertThat(saved.getBirthDate()).isEqualTo(customer.getBirthDate());
+        assertThat(saved.getStatus()).isEqualTo(customer.getStatus());
         assertThat(saved.getPhone()).isEqualTo(customer.getPhone());
-        assertThat(saved.getAddress()).isEqualTo(customer.getAddress());
-        assertThat(saved.getGender()).isEqualTo(customer.getGender());
-
         assertThat(found.getId()).isEqualTo(saved.getId());
         assertThat(found.getDocument()).isEqualTo(saved.getDocument());
 
@@ -96,22 +90,18 @@ class customerRepositoryTest {
                 "Maria Silva",
                 "00.111.222-33",
                 "maria@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)22339988",
-                "Rua 2",
-                "Feminino"
+                "(00)22339988"
+
         );
 
         Customer customer2 = Customer.create(
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
+
         );
 
         repository.save(customer1);
@@ -192,11 +182,8 @@ class customerRepositoryTest {
                 "Joana Silva",
                 customer.getDocument(),
                 "joana@gmail.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(11)8889996",
-                "Rua flores 39",
-                "Feminino"
+                "(11)8889996"
         );
 
         //Act/Assert

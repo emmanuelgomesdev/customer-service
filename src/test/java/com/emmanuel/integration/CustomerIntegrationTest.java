@@ -1,6 +1,7 @@
 package com.emmanuel.integration;
 
 import com.emmanuel.customerservice.customer.domain.Customer;
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
 import com.emmanuel.customerservice.customer.dto.CreateCustomerRequest;
 import com.emmanuel.customerservice.customer.dto.CustomerResponse;
 import com.emmanuel.customerservice.customer.dto.UpdateCustomerRequest;
@@ -51,11 +52,8 @@ public class CustomerIntegrationTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)55996633",
-                "Rua 5",
-                "Feminino"
+                "(00)55996633"
         );
 
         //Act / Assert HTTP
@@ -67,7 +65,6 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.fullName").value(request.fullName()))
                 .andExpect(jsonPath("$.document").value(request.document()))
                 .andExpect(jsonPath("$.email").value(request.email()))
-                .andExpect(jsonPath("$.nationality").value(request.nationality()))
                 .andExpect(jsonPath("$.birthDate").value(request.birthDate().toString()))
                 .andReturn();
 
@@ -95,11 +92,8 @@ public class CustomerIntegrationTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)55996633",
-                "Rua 5",
-                "Feminino"
+                "(00)55996633"
         );
 
         Customer saved = repository.save(customer);
@@ -113,12 +107,9 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.fullName").value(saved.getFullName()))
                 .andExpect(jsonPath("$.document").value(saved.getDocument()))
                 .andExpect(jsonPath("$.email").value(saved.getEmail()))
-                .andExpect(jsonPath("$.nationality").value(saved.getNationality()))
                 .andExpect(jsonPath("$.birthDate").value(saved.getBirthDate().toString()))
-                .andExpect(jsonPath("$.phone").value(saved.getPhone()))
-                .andExpect(jsonPath("$.address").value(saved.getAddress()))
-                .andExpect(jsonPath("$.gender").value(saved.getGender()));
-
+                .andExpect(jsonPath("$.status").value(saved.getStatus().name()))
+                .andExpect(jsonPath("$.phone").value(saved.getPhone()));
     }
 
     @Test
@@ -129,22 +120,18 @@ public class CustomerIntegrationTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)55996633",
-                "Rua 5",
-                "Feminino"
+                "(00)55996633"
+
         );
 
         Customer customer2 = Customer.create(
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
+
         );
 
 
@@ -159,13 +146,13 @@ public class CustomerIntegrationTest {
                 .andExpect(jsonPath("$.content[0].fullName").value(customer2.getFullName()))
                 .andExpect(jsonPath("$.content[0].document").value(customer2.getDocument()))
                 .andExpect(jsonPath("$.content[0].email").value(customer2.getEmail()))
-                .andExpect(jsonPath("$.content[0].nationality").value(customer2.getNationality()))
                 .andExpect(jsonPath("$.content[0].birthDate").value(customer2.getBirthDate().toString()))
+                .andExpect(jsonPath("$.content[0].status").value(customer2.getStatus().name()))
                 .andExpect(jsonPath("$.content[1].fullName").value(customer1.getFullName()))
                 .andExpect(jsonPath("$.content[1].document").value(customer1.getDocument()))
                 .andExpect(jsonPath("$.content[1].email").value(customer1.getEmail()))
-                .andExpect(jsonPath("$.content[1].nationality").value(customer1.getNationality()))
                 .andExpect(jsonPath("$.content[1].birthDate").value(customer1.getBirthDate().toString()))
+                .andExpect(jsonPath("$.content[1].status").value(customer1.getStatus().name()))
                 .andExpect(jsonPath("$.page.totalElements").value(2))
                 .andExpect(jsonPath("$.page.size").value(5))
                 .andExpect(jsonPath("$.page.number").value(0));
@@ -180,22 +167,17 @@ public class CustomerIntegrationTest {
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
+
         );
 
         Customer saved = repository.save(customer);
 
         UpdateCustomerRequest request = new UpdateCustomerRequest(
                 "Maria Isabel",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)9999-8888",
-                "Rua Samambaia 99",
-                "Feminino"
+                "(00)9999-8888"
         );
 
 
@@ -206,11 +188,8 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(saved.getId().toString()))
                 .andExpect(jsonPath("$.fullName").value(request.fullName()))
-                .andExpect(jsonPath("$.nationality").value(request.nationality()))
                 .andExpect(jsonPath("$.birthDate").value(request.birthDate().toString()))
-                .andExpect(jsonPath("$.phone").value(request.phone()))
-                .andExpect(jsonPath("$.address").value(request.address()))
-                .andExpect(jsonPath("$.gender").value(request.gender()));
+                .andExpect(jsonPath("$.phone").value(request.phone()));
 
         Customer updated = repository.findById(saved.getId()).orElseThrow();
 
@@ -219,8 +198,6 @@ public class CustomerIntegrationTest {
         assertThat(updated.getFullName()).isEqualTo(request.fullName());
         assertThat(updated.getBirthDate()).isEqualTo(request.birthDate());
         assertThat(updated.getPhone()).isEqualTo(request.phone());
-        assertThat(updated.getAddress()).isEqualTo(request.address());
-        assertThat(updated.getGender()).isEqualTo(request.gender());
 
         //Assert unchanged fields
         assertThat(updated.getDocument()).isEqualTo(customer.getDocument());
@@ -236,11 +213,8 @@ public class CustomerIntegrationTest {
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
         );
 
         Customer saved = repository.save(customer);

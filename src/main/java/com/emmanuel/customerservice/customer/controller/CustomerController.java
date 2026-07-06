@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.PanelUI;
 import java.util.UUID;
 
 @Tag(name = "customers", description = "Endpoints for customer management")
@@ -96,7 +97,7 @@ public class CustomerController {
     }
 
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "Find all customers",
             description = "Finds customers using pagination parameters")
     @ApiResponses(value = {
@@ -115,17 +116,35 @@ public class CustomerController {
         return result.map(customerRestMapper::toResponse);
     }
 
-    @DeleteMapping(value = "/{id}")
-    @Operation(summary = "Delete customer",
-            description = "Deletes a customer by id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Customer deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Customer not found")
-    })
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
 
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @PatchMapping(value = "/{id}/deactivate")
+    @Operation(summary = "Deactivate customer",
+            description = "Deactivates an active customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "customer deactivate"),
+            @ApiResponse(responseCode = "404", description = "Customer not found"),
+            @ApiResponse(responseCode = "409", description = "Customer already inactive")
+    })
+    public ResponseEntity<CustomerResponse> deactivate(@PathVariable UUID id) {
+
+        var result  = service.deactivate(id);
+        var response = customerRestMapper.toResponse(result);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping(value = "/{id}/activate")
+    @Operation(summary = "Activate customer",
+            description = "Activates an inactive customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "customer activate"),
+            @ApiResponse(responseCode = "404", description = "Customer not found"),
+            @ApiResponse(responseCode = "409", description = "Customer already active")
+    })
+    public ResponseEntity<CustomerResponse> activate(@PathVariable UUID id) {
+
+       var result = service.activate(id);
+       var response = customerRestMapper.toResponse(result);
+        return ResponseEntity.ok(response);
     }
 
 }

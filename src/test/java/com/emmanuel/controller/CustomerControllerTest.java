@@ -4,6 +4,7 @@ import com.emmanuel.customerservice.customer.application.command.CreateCustomerC
 import com.emmanuel.customerservice.customer.application.command.UpdateCustomerCommand;
 import com.emmanuel.customerservice.customer.application.result.CustomerResult;
 import com.emmanuel.customerservice.customer.controller.CustomerController;
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
 import com.emmanuel.customerservice.customer.dto.CreateCustomerRequest;
 import com.emmanuel.customerservice.customer.dto.CustomerResponse;
 import com.emmanuel.customerservice.customer.dto.UpdateCustomerRequest;
@@ -59,22 +60,17 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)55996633",
-                "Rua 5",
-                "Feminino"
+                "(00)55996633"
+
         );
 
         CreateCustomerCommand command = new CreateCustomerCommand(
                 request.fullName(),
                 request.document(),
                 request.email(),
-                request.nationality(),
                 request.birthDate(),
-                request.phone(),
-                request.address(),
-                request.gender()
+                request.phone()
         );
 
         CustomerResult result = new CustomerResult(
@@ -82,11 +78,9 @@ public class CustomerControllerTest {
                 request.fullName(),
                 request.document(),
                 request.email(),
-                request.nationality(),
                 request.birthDate(),
+                CustomerStatus.ACTIVE,
                 request.phone(),
-                request.address(),
-                request.gender(),
                 now,
                 now
         );
@@ -96,11 +90,9 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
-                result.nationality(),
                 result.birthDate(),
+                result.status(),
                 result.phone(),
-                result.address(),
-                result.gender(),
                 result.createdAt(),
                 result.updatedAt()
         );
@@ -118,11 +110,9 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
-                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.birthDate").value(response.birthDate().toString()))
-                .andExpect(jsonPath("$.phone").value(response.phone()))
-                .andExpect(jsonPath("$.address").value(response.address()))
-                .andExpect(jsonPath("$.gender").value(response.gender()));
+                .andExpect(jsonPath("$.status").value(response.status().name()))
+                .andExpect(jsonPath("$.phone").value(response.phone()));
 
         verify(customerRestMapper).toCommand(any(CreateCustomerRequest.class));
         verify(service).create(command);
@@ -140,11 +130,9 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
+                CustomerStatus.ACTIVE,
                 "(00)55996633",
-                "Rua 5",
-                "Feminino",
                 now,
                 now
         );
@@ -154,11 +142,9 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
-                result.nationality(),
                 result.birthDate(),
+                result.status(),
                 result.phone(),
-                result.address(),
-                result.gender(),
                 result.createdAt(),
                 result.updatedAt()
         );
@@ -173,11 +159,9 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
-                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.birthDate").value(response.birthDate().toString()))
-                .andExpect(jsonPath("$.phone").value(response.phone()))
-                .andExpect(jsonPath("$.address").value(response.address()))
-                .andExpect(jsonPath("$.gender").value(response.gender()));
+                .andExpect(jsonPath("$.status").value(response.status().name()))
+                .andExpect(jsonPath("$.phone").value(response.phone()));
 
         verify(service).findById(id);
         verify(customerRestMapper).toResponse(result);
@@ -201,11 +185,9 @@ public class CustomerControllerTest {
                 "Maria Isabel",
                 "111.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
+                CustomerStatus.ACTIVE,
                 "(00)55996633",
-                "Rua 5",
-                "Feminino",
                 now,
                 now
         );
@@ -215,11 +197,9 @@ public class CustomerControllerTest {
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
+                CustomerStatus.ACTIVE,
                 "(00)11554488",
-                "Rua 3",
-                "Masculino",
                 now,
                 now
         );
@@ -229,11 +209,9 @@ public class CustomerControllerTest {
                 result1.fullName(),
                 result1.document(),
                 result1.email(),
-                result1.nationality(),
                 result1.birthDate(),
+                result1.status(),
                 result1.phone(),
-                result1.address(),
-                result1.gender(),
                 result1.createdAt(),
                 result1.updatedAt()
         );
@@ -243,11 +221,9 @@ public class CustomerControllerTest {
                 result2.fullName(),
                 result2.document(),
                 result2.email(),
-                result2.nationality(),
                 result2.birthDate(),
+                result2.status(),
                 result2.phone(),
-                result2.address(),
-                result2.gender(),
                 result2.createdAt(),
                 result2.updatedAt()
         );
@@ -270,13 +246,13 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.content[0].id").value(response1.id().toString()))
                 .andExpect(jsonPath("$.content[0].fullName").value(response1.fullName()))
                 .andExpect(jsonPath("$.content[0].email").value(response1.email()))
-                .andExpect(jsonPath("$.content[0].nationality").value(response1.nationality()))
                 .andExpect(jsonPath("$.content[0].birthDate").value(response1.birthDate().toString()))
+                .andExpect(jsonPath("$.content[0].status").value(response1.status().name()))
                 .andExpect(jsonPath("$.content[1].id").value(response2.id().toString()))
                 .andExpect(jsonPath("$.content[1].fullName").value(response2.fullName()))
                 .andExpect(jsonPath("$.content[1].email").value(response2.email()))
-                .andExpect(jsonPath("$.content[1].nationality").value(response2.nationality()))
-                .andExpect(jsonPath("$.content[0].birthDate").value(response2.birthDate().toString()))
+                .andExpect(jsonPath("$.content[1].birthDate").value(response2.birthDate().toString()))
+                .andExpect(jsonPath("$.content[1].status").value(response1.status().name()))
                 .andExpect(jsonPath("$.totalElements").value(2))
                 .andExpect(jsonPath("$.size").value(5))
                 .andExpect(jsonPath("$.number").value(0));
@@ -294,32 +270,25 @@ public class CustomerControllerTest {
 
         UpdateCustomerRequest request = new UpdateCustomerRequest(
                 "José Luís",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(22)3366-9966",
-                "Rua Beija-Flor 18",
-                "Masculino"
+                "(22)3366-9966"
         );
 
         UpdateCustomerCommand command = new UpdateCustomerCommand(
                 request.fullName(),
-                request.nationality(),
                 request.birthDate(),
-                request.phone(),
-                request.address(),
-                request.gender()
+                request.phone()
+
         );
 
         CustomerResult result = new CustomerResult(
                 id,
                 request.fullName(),
-                "Brazilian",
                 "11.777.999-33",
                 "gomes@silva.com",
                 request.birthDate(),
+                CustomerStatus.ACTIVE,
                 request.phone(),
-                request.address(),
-                request.gender(),
                 now,
                 now
         );
@@ -329,11 +298,9 @@ public class CustomerControllerTest {
                 result.fullName(),
                 result.document(),
                 result.email(),
-                result.nationality(),
                 result.birthDate(),
+                result.status(),
                 result.phone(),
-                result.address(),
-                result.gender(),
                 result.createdAt(),
                 result.updatedAt()
         );
@@ -351,11 +318,9 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.fullName").value(response.fullName()))
                 .andExpect(jsonPath("$.document").value(response.document()))
                 .andExpect(jsonPath("$.email").value(response.email()))
-                .andExpect(jsonPath("$.nationality").value(response.nationality()))
                 .andExpect(jsonPath("$.birthDate").value(response.birthDate().toString()))
-                .andExpect(jsonPath("$.phone").value(response.phone()))
-                .andExpect(jsonPath("$.address").value(response.address()))
-                .andExpect(jsonPath("$.gender").value(response.gender()));
+                .andExpect(jsonPath("$.status").value(response.status().name()))
+                .andExpect(jsonPath("$.phone").value(response.phone()));
 
         verify(customerRestMapper).toUpdateCommand(any(UpdateCustomerRequest.class));
         verify(service).update(eq(id), eq(command));

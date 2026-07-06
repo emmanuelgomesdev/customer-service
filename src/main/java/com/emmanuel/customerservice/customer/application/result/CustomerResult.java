@@ -1,5 +1,7 @@
 package com.emmanuel.customerservice.customer.application.result;
 
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,11 +11,9 @@ public record CustomerResult(
         String fullName,
         String document,
         String email,
-        String nationality,
         LocalDate birthDate,
+        CustomerStatus status,
         String phone,
-        String address,
-        String gender,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

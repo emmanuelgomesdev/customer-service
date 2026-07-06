@@ -1,5 +1,8 @@
 package com.emmanuel.customerservice.customer.domain;
 
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
+import com.emmanuel.customerservice.exception.BusinessException;
+import com.emmanuel.customerservice.exception.ErrorResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -30,20 +33,15 @@ public class Customer {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nationality", length = 100)
-    private String nationality;
-
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CustomerStatus status;
+
     @Column(name = "phone", nullable = false)
     private String phone;
-
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @Column(name = "gender", nullable = false)
-    private String gender;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -58,67 +56,84 @@ public class Customer {
             String fullName,
             String document,
             String email,
-            String nationality,
             LocalDate birthDate,
-            String phone,
-            String address,
-            String gender) {
+            String phone
+    ) {
 
         Customer customer = new Customer();
 
         customer.fullName = fullName;
         customer.document = document;
         customer.email = email;
-        customer.nationality = nationality;
         customer.birthDate = birthDate;
+        customer.status = CustomerStatus.ACTIVE;
         customer.phone = phone;
-        customer.address = address;
-        customer.gender = gender;
 
         return customer;
     }
 
     public void update(
             String fullName,
-            String nationality,
             LocalDate birthDate,
-            String phone,
-            String address,
-            String gender) {
+            String phone
+    ) {
 
         this.fullName = fullName;
-        this.nationality = nationality;
         this.birthDate = birthDate;
         this.phone = phone;
-        this.address = address;
-        this.gender = gender;
 
     }
 
 
-    public UUID getId() {return id;}
-
-    public String getFullName() {return fullName;}
-
-    public String getDocument() {return document;}
-
-    public String getEmail() {return email;}
-
-    public String getNationality() {return nationality;}
-
-    public LocalDate getBirthDate() {return birthDate;}
-
-    public String getPhone() {return phone;}
-
-    public String getAddress() {
-        return address;
+    public UUID getId() {
+        return id;
     }
 
-    public String getGender() {
-        return gender;
+    public String getFullName() {
+        return fullName;
     }
 
-    public LocalDateTime getCreatedAt() {return createdAt;}
+    public String getDocument() {
+        return document;
+    }
 
-    public LocalDateTime getUpdatedAt() {return updatedAt;}
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public CustomerStatus getStatus() {
+        return status;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+
+    public void deactivate(){
+        if(status == CustomerStatus.INACTIVE){
+            throw new BusinessException(ErrorResponse.CUSTOMER_ALREADY_INACTIVE);
+        }
+        this.status = CustomerStatus.INACTIVE;
+    }
+
+    public void activate(){
+        if(status == CustomerStatus.ACTIVE){
+            throw new BusinessException(ErrorResponse.CUSTOMER_ALREADY_ACTIVE);
+        }
+        this.status = CustomerStatus.ACTIVE;
+    }
+
 }

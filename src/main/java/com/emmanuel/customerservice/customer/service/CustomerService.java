@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 public class CustomerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository repository;
     private final CustomerValidator validator;
@@ -36,7 +36,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerResult create(CreateCustomerCommand command) {
-        logger.info("Creating customer with name {}", command.fullName());
+        LOGGER.info("Creating customer with name {}", command.fullName());
 
         validator.validateDocumentDoesNotExist(command.document());
 
@@ -48,7 +48,7 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public CustomerResult findById(UUID id) {
-        logger.info("Finding customer with id {}", id);
+        LOGGER.info("Finding customer with id {}", id);
 
         var customer = validator.findByIdOrThrow(id);
         return applicationMapper.toResult(customer);
@@ -57,7 +57,7 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public Page<CustomerResult> findAll(Pageable pageable) {
-        logger.info("Finding customers with pageable {}", pageable);
+        LOGGER.info("Finding customers with pageable {}", pageable);
 
         return repository
                 .findAll(pageable)
@@ -66,7 +66,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerResult update(UUID id, UpdateCustomerCommand command) {
-        logger.info("Updating customer with id {}", id);
+        LOGGER.info("Updating customer with id {}", id);
 
         var customer = validator.findByIdOrThrow(id);
         applicationMapper.updateEntity(customer, command);
@@ -76,12 +76,22 @@ public class CustomerService {
     }
 
     @Transactional
-    public void delete(UUID id) {
-        logger.info("Deleting customer with id {}", id);
+    public CustomerResult deactivate(UUID id) {
+        LOGGER.info("Deactivating customer with id {}", id);
 
-        Customer customer = validator.findByIdOrThrow(id);
-        repository.delete(customer);
+        var customer = validator.findByIdOrThrow(id);
+        customer.deactivate();
+        return applicationMapper.toResult(customer);
 
+    }
+
+    @Transactional
+    public CustomerResult activate(UUID id) {
+        LOGGER.info("Activating customer with id {}", id);
+
+        var customer = validator.findByIdOrThrow(id);
+        customer.activate();
+        return applicationMapper.toResult(customer);
     }
 
 }

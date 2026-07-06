@@ -4,6 +4,7 @@ import com.emmanuel.customerservice.customer.application.command.CreateCustomerC
 import com.emmanuel.customerservice.customer.application.command.UpdateCustomerCommand;
 import com.emmanuel.customerservice.customer.application.result.CustomerResult;
 import com.emmanuel.customerservice.customer.domain.Customer;
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,11 +15,8 @@ public class CustomerApplicationMapper {
                 command.fullName(),
                 command.document(),
                 command.email(),
-                command.nationality(),
                 command.birthDate(),
-                command.phone(),
-                command.address(),
-                command.gender()
+                command.phone()
         );
     }
 
@@ -28,11 +26,9 @@ public class CustomerApplicationMapper {
                 customer.getFullName(),
                 customer.getDocument(),
                 customer.getEmail(),
-                customer.getNationality(),
                 customer.getBirthDate(),
+                customer.getStatus(),
                 customer.getPhone(),
-                customer.getAddress(),
-                customer.getGender(),
                 customer.getCreatedAt(),
                 customer.getUpdatedAt()
         );
@@ -41,11 +37,9 @@ public class CustomerApplicationMapper {
    public void updateEntity(Customer customer, UpdateCustomerCommand command){
         customer.update(
                 command.fullName(),
-                command.nationality(),
                 command.birthDate(),
-                command.phone(),
-                command.address(),
-                command.gender()
+                command.phone()
+
         );
    }
 

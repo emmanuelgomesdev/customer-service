@@ -4,6 +4,7 @@ import com.emmanuel.customerservice.customer.application.command.CreateCustomerC
 import com.emmanuel.customerservice.customer.application.command.UpdateCustomerCommand;
 import com.emmanuel.customerservice.customer.application.result.CustomerResult;
 import com.emmanuel.customerservice.customer.domain.Customer;
+import com.emmanuel.customerservice.customer.domain.enums.CustomerStatus;
 import com.emmanuel.customerservice.customer.mapper.CustomerApplicationMapper;
 import com.emmanuel.customerservice.customer.repository.CustomerRepository;
 import com.emmanuel.customerservice.customer.service.CustomerService;
@@ -50,22 +51,16 @@ public class CustomerServiceTest {
                 "José Silva",
                 "11.222.333-44",
                 "silva@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)22336699",
-                "Rua Flores 25",
-                "Feminino"
+                "(00)22336699"
         );
 
         Customer customer = Customer.create(
                 command.fullName(),
                 command.document(),
                 command.email(),
-                command.nationality(),
                 command.birthDate(),
-                command.phone(),
-                command.address(),
-                command.gender()
+                command.phone()
         );
 
         CustomerResult result = new CustomerResult(
@@ -73,11 +68,9 @@ public class CustomerServiceTest {
                 command.fullName(),
                 command.document(),
                 command.email(),
-                command.nationality(),
                 command.birthDate(),
+                CustomerStatus.ACTIVE,
                 command.phone(),
-                command.address(),
-                command.gender(),
                 now,
                 now
         );
@@ -109,11 +102,8 @@ public class CustomerServiceTest {
                 "Maria Isabel",
                 "11.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(44)55996633",
-                "Rua 5",
-                "Feminino"
+                "(44)55996633"
         );
 
         CustomerResult result = new CustomerResult(
@@ -121,11 +111,9 @@ public class CustomerServiceTest {
                 customer.getFullName(),
                 customer.getDocument(),
                 customer.getEmail(),
-                customer.getNationality(),
                 customer.getBirthDate(),
+                CustomerStatus.ACTIVE,
                 customer.getPhone(),
-                customer.getAddress(),
-                customer.getGender(),
                 now,
                 now
         );
@@ -158,22 +146,16 @@ public class CustomerServiceTest {
                 "Maria Silva",
                 "00.111.222-33",
                 "maria@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)22339988",
-                "Rua 2",
-                "Feminino"
+                "(00)22339988"
         );
 
         Customer customer2 = Customer.create(
                 "José Gomes",
                 "11.777.999-33",
                 "gomes@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
         );
 
         CustomerResult result1 = new CustomerResult(
@@ -181,11 +163,9 @@ public class CustomerServiceTest {
                 customer1.getFullName(),
                 customer1.getDocument(),
                 customer1.getEmail(),
-                customer1.getNationality(),
                 customer1.getBirthDate(),
+                CustomerStatus.ACTIVE,
                 customer1.getPhone(),
-                customer1.getAddress(),
-                customer1.getGender(),
                 now,
                 now
         );
@@ -195,11 +175,9 @@ public class CustomerServiceTest {
                 customer2.getFullName(),
                 customer2.getDocument(),
                 customer2.getEmail(),
-                customer2.getNationality(),
                 customer2.getBirthDate(),
+                CustomerStatus.ACTIVE,
                 customer2.getPhone(),
-                customer2.getAddress(),
-                customer2.getGender(),
                 now,
                 now
         );
@@ -240,20 +218,15 @@ public class CustomerServiceTest {
                 "Maria Silva",
                 "00.111.222-33",
                 "maria@silva.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)22339988",
-                "Rua 2",
-                "Feminino"
+                "(00)22339988"
         );
 
         UpdateCustomerCommand command = new UpdateCustomerCommand(
                 "José Gomes",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(00)11554488",
-                "Rua 3",
-                "Masculino"
+                "(00)11554488"
+
         );
 
         CustomerResult result = new CustomerResult(
@@ -261,11 +234,9 @@ public class CustomerServiceTest {
                 command.fullName(),
                 customer.getDocument(),
                 customer.getEmail(),
-                customer.getNationality(),
                 command.birthDate(),
+                CustomerStatus.ACTIVE,
                 command.phone(),
-                command.address(),
-                command.gender(),
                 now,
                 now
         );
@@ -276,10 +247,7 @@ public class CustomerServiceTest {
         CustomerResult response = service.update(id, command);
 
         assertThat(response.fullName()).isEqualTo(command.fullName());
-        assertThat(response.nationality()).isEqualTo(command.nationality());
         assertThat(response.phone()).isEqualTo(command.phone());
-        assertThat(response.address()).isEqualTo(command.address());
-        assertThat(response.gender()).isEqualTo(command.gender());
 
         verify(validator).findByIdOrThrow(id);
         verify(applicationMapper).toResult(customer);
@@ -294,11 +262,9 @@ public class CustomerServiceTest {
                 "Maria Isabel",
                 "11.555.444-99",
                 "isabel@email.com",
-                "Brazilian",
                 LocalDate.parse("1998-06-18"),
-                "(44)55996633",
-                "Rua 5",
-                "Feminino"
+                "(44)55996633"
+
         );
 
         when(validator.findByIdOrThrow(id)).thenReturn(customer);
